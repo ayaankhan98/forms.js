@@ -1,3 +1,11 @@
+// var defaultClasses = {
+//   'input': 'form-group form-control',
+//   'select': 'form-group form-control',
+//   'radio': 'form-check-input',
+//   'checkbox': 'form-check-input',
+// }
+
+
 var preSetup = () => {
   let bootstrap = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
   let integrityValue = "sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
@@ -35,7 +43,9 @@ var preSetup = () => {
   head.append(script3)
 }
 
-var readObject = (details,formTagID) => {
+var readObject = (details, formTagID) => {
+  let config = details["configuration"]
+  delete (details["configuration"])
   for (var key in details) {
     if (typeof (details[key]) === "object") {
       var tagID = parseInt(key)
@@ -46,27 +56,50 @@ var readObject = (details,formTagID) => {
         // console.log(element)
         // console.log(label)
         // console.log(attributes)
-        createTag(element, label, attributes,formTagID)
+        createTag(element, label, attributes, formTagID, config)
       }
     }
-    if (typeof (details[key]) === "object" && typeof (key) != "number") {
-    }
+    // if (typeof (details[key]) === "object" && typeof (key) != "number") {
+    // }
   }
 }
 
-
-var createTag = (tagName, labelName, attributes,formTagID) => {
+var createTag = (tagName, labelName, attributes, formTagID, config) => {
   const form = document.querySelector(`#${formTagID}`)
 
   let label = undefined
+  let row = document.createElement('div')
+  row.setAttribute('class','row')
+
+  if (config['d-left'] != undefined) {
+    let dLeft = document.createElement('div')
+    dLeft.setAttribute('class',`col-md-${config['d-left']}`)
+    row.append(dLeft)
+  }
+
   let div = document.createElement('div')
-  div.setAttribute('class', 'col-md-6')
+  div.setAttribute('class', `col-md-${config["form-width"]}`)
+  if(attributes['type'] === 'radio') {
+    div.setAttribute('class', `col-md-${config["form-width"]} form-check ml-3`)
+  }
   if (labelName != undefined) {
     label = document.createElement('label')
     label.innerHTML = labelName
   }
 
   let element = document.createElement(tagName)
+  // if (tagName === 'input') { 
+  //   element.setAttribute('class', defaultClasses["input"]) 
+  // } else if (tagName === 'select') {
+  //   element.setAttribute('class', defaultClasses["select"]) 
+
+  // } else if (tagName === 'radio') {
+  //   element.setAttribute('class', defaultClasses["radio"]) 
+
+  // } else if (tagName === 'checkbox') {
+  //   element.setAttribute('class', defaultClasses["checkbox"]) 
+  // }
+
   for (let attribute in attributes) {
     if (attribute === 'innerHTML') {
       element.innerHTML = attributes[attribute]
@@ -74,11 +107,11 @@ var createTag = (tagName, labelName, attributes,formTagID) => {
       element.setAttribute(attribute, attributes[attribute])
     }
   }
-  if(tagName === "select") {
+  if (tagName === "select") {
     let options = attributes["options"]
-    for(let option in options) {
+    for (let option in options) {
       let optionTag = document.createElement('option')
-      optionTag.setAttribute('value',option)
+      optionTag.setAttribute('value', option)
       optionTag.innerHTML = options[option]
       element.append(optionTag)
     }
@@ -97,6 +130,6 @@ var createTag = (tagName, labelName, attributes,formTagID) => {
     }
     div.append(element)
   }
-
-  form.append(div)
+  row.append(div)
+  form.append(row)
 }
