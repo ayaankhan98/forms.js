@@ -35,7 +35,7 @@ var preSetup = () => {
   head.append(script3)
 }
 
-var readObject = (details) => {
+var readObject = (details,formTagID) => {
   for (var key in details) {
     if (typeof (details[key]) === "object") {
       var tagID = parseInt(key)
@@ -43,10 +43,10 @@ var readObject = (details) => {
         var element = details[key]["tagName"]
         var attributes = details[key]["attributes"]
         var label = details[key]["label"]
-        console.log(element)
-        console.log(label)
-        console.log(attributes)
-        createTag(element, label, attributes)
+        // console.log(element)
+        // console.log(label)
+        // console.log(attributes)
+        createTag(element, label, attributes,formTagID)
       }
     }
     if (typeof (details[key]) === "object" && typeof (key) != "number") {
@@ -55,8 +55,8 @@ var readObject = (details) => {
 }
 
 
-var createTag = (tagName, labelName, attributes) => {
-  const form = document.querySelector('#form-1')
+var createTag = (tagName, labelName, attributes,formTagID) => {
+  const form = document.querySelector(`#${formTagID}`)
 
   let label = undefined
   let div = document.createElement('div')
@@ -73,6 +73,20 @@ var createTag = (tagName, labelName, attributes) => {
     } else {
       element.setAttribute(attribute, attributes[attribute])
     }
+  }
+  if(tagName === "select") {
+    let options = attributes["options"]
+    for(let option in options) {
+      let optionTag = document.createElement('option')
+      optionTag.setAttribute('value',option)
+      optionTag.innerHTML = options[option]
+      element.append(optionTag)
+    }
+    // options.forEach(option => {
+    //   let optionTag = document.createElement('option')
+    //   optionTag.innerHTML = option
+    //   element.append(optionTag)
+    // })
   }
   if (attributes["type"] === 'checkbox' || attributes["type"] == "radio") {
     div.append(element)

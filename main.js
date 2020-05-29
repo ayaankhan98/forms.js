@@ -58,6 +58,48 @@ var details = {
     }
   },
   7: {
+    'tagName' : 'input',
+    'label' : 'Accept the Terms and Conditions',
+    'attributes' : 
+    {
+      'type' : 'checkbox',
+      'class': 'form-check-inline',
+    }
+  },
+  8: {
+    'tagName' : 'input',
+    'label' : 'Radio 1',
+    'attributes' : 
+    {
+      'type' : 'radio',
+      'class': 'form-radio-inline',
+    }
+  },
+  9: {
+    'tagName' : 'input',
+    'label' : 'Radio 2',
+    'attributes' : 
+    {
+      'type' : 'radio',
+      'class': 'form-radio-inline',
+    }
+  },
+  10 : {
+    'tagName': 'select',
+    'attributes' : 
+    {
+      'class' : 'form-group form-control',
+      'placeholder' : 'selectbox',
+      'options' : 
+      {
+        "D" : "Delhi",
+        "M" : "Mumabai",
+        "B" : "Bareilly",
+        "A" :"Aligrah",
+      }
+    }
+  },
+  11  : {
     'tagName' : 'submit',
     'attributes' : 
     {
@@ -67,6 +109,7 @@ var details = {
   }
 }
 document.addEventListener('DOMContentLoaded', () => {
+  formTagID = 'form-1'
   preSetup()
-  readObject(details)
+  readObject(details,formTagID)
 })
