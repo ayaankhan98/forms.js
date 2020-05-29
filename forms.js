@@ -44,6 +44,24 @@ var preSetup = () => {
 }
 
 var readObject = (details, formTagID) => {
+  try {
+    if (details["configuration"] === undefined) {
+      throw `Error : No configuration found
+        define configurations in JSON object
+        {
+          "configuration" : {
+            ....
+          }
+      }`
+    }
+    if (formTagID === undefined) {
+      throw `Error no formTagID found`
+    }
+  }
+  catch (error) {
+    console.log(error)
+    return;
+  }
   let config = details["configuration"]
   delete (details["configuration"])
   for (var key in details) {
@@ -69,17 +87,17 @@ var createTag = (tagName, labelName, attributes, formTagID, config) => {
 
   let label = undefined
   let row = document.createElement('div')
-  row.setAttribute('class','row')
+  row.setAttribute('class', 'row')
 
   if (config['d-left'] != undefined) {
     let dLeft = document.createElement('div')
-    dLeft.setAttribute('class',`col-md-${config['d-left']}`)
+    dLeft.setAttribute('class', `col-md-${config['d-left']}`)
     row.append(dLeft)
   }
 
   let div = document.createElement('div')
   div.setAttribute('class', `col-md-${config["form-width"]}`)
-  if(attributes['type'] === 'radio') {
+  if (attributes['type'] === 'radio') {
     div.setAttribute('class', `col-md-${config["form-width"]} form-check ml-3`)
   }
   if (labelName != undefined) {
