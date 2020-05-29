@@ -10,7 +10,7 @@ it is very easy to use all you need is just to include `forms.js` in your `HTML 
 
 a sample `index.html` would look like
 
-```
+```HTML
 <!DOCTYPE html>
 <html>
   <head>
@@ -33,8 +33,12 @@ a sample `index.html` would look like
 in order to trigger the inbuilt library functions you would need a seprate javascript file that is `main.js` in this case
 
 let's look over the sample `main.js`
-```
+```javascript
 var details = {
+  "configuration" : {
+    'form-width' : '4',
+    'd-left' : '4',
+  },
   1: {
     'tagName': 'input',
     'label' : 'First Name',
@@ -42,15 +46,16 @@ var details = {
       'type': 'text',
       'placeholder': 'First Name',
       'class': 'form-group form-control',
+      'id' : 'name'
     },
   },
   2: {
     'tagName': 'input',
-    'label' : 'Mobile',
+    'label' : 'Password',
     'attributes':
     {
-      'type': 'number',
-      'placeholder': 'Mobile Number',
+      'type': 'password',
+      'placeholder': 'Password',
       'class': 'form-group form-control',
     },
   },
@@ -94,6 +99,52 @@ var details = {
     }
   },
   7: {
+    'tagName' : 'input',
+    'label' : 'Accept the Terms and Conditions',
+    'attributes' : 
+    {
+      'type' : 'checkbox',
+      'class': 'form-check-inline',
+    }
+  },
+  8: {
+    'tagName' : 'input',
+    'label' : 'Radio 1',
+    'attributes' : 
+    {
+      'type' : 'radio',
+      'class': 'form-check-input',
+      'value' : 'radio1',
+      'name' : 'set1'
+    }
+  },
+  9: {
+    'tagName' : 'input',
+    'label' : 'Radio 2',
+    'attributes' : 
+    {
+      'type' : 'radio',
+      'class': 'form-check-input',
+      'value' : 'radio2',
+      'name' : 'set1'
+    }
+  },
+  10 : {
+    'tagName': 'select',
+    'attributes' : 
+    {
+      'class' : 'form-group form-control',
+      'placeholder' : 'selectbox',
+      'options' : 
+      {
+        "D" : "Delhi",
+        "M" : "Mumabai",
+        "B" : "Bareilly",
+        "A" :"Aligrah",
+      }
+    }
+  },
+  11  : {
     'tagName' : 'submit',
     'attributes' : 
     {
@@ -109,14 +160,22 @@ document.addEventListener('DOMContentLoaded', () => {
 ```
 the `JSON` object `details` consitst of the form details based on which the forms will be generated.
 
+The `"configuration"` defines the configuration of form such as `d-left` key defines the position of form from the left side of screen and `form-width` defines the width of form
+
 complete documentaion is in progress along with the development, as this is the very basic version it contains only two functions `preSetup()` and `readObject(JSONObject)`,
 the `preSetup()` function will include a bunch of stuff such as `bootstrap`, `jQuery` and `bootstrap.js`, so the user will not have to worry about including Bootstrap explicitly in their web pages. And the function `readObject(JSONObject)` will take a JSON object as a parameter to genrate responsive HTML web forms.
 
 currently this will be able to genrate only
-- input text fields
+- input fields
+  - text
+  - number
+  - date
+  - email
+  - password
+  - radio
+  - checkbox
 - text area
-- checkbox
-- radio
+- select box
 
 # Goals
 will be updating soon
