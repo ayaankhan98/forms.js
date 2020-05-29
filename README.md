@@ -154,8 +154,9 @@ var details = {
   }
 }
 document.addEventListener('DOMContentLoaded', () => {
+  formTagID = 'form-1'
   preSetup()
-  readObject(details)
+  readObject(details,formTagID)
 })
 ```
 the `JSON` object `details` consitst of the form details based on which the forms will be generated.
