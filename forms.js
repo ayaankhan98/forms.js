@@ -149,6 +149,10 @@ var createTag = (tagName, labelName, attributes, formTagID, config) => {
   for (let attribute in attributes) {
     if (attribute === 'innerHTML') {
       element.innerHTML = attributes[attribute]
+    } else if (attribute === 'required') {
+      if (attributes[attribute] === "true" || attributes[attribute] === true) {
+        element.required = true
+      }
     } else {
       element.setAttribute(attribute, attributes[attribute])
     }
