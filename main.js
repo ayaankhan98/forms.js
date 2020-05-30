@@ -1,4 +1,8 @@
 var details = {
+  "configuration" : {
+    'form-width' : '5',
+    'd-left' : '2',
+  },
   1: {
     'tagName': 'input',
     'label' : 'First Name',
@@ -6,15 +10,16 @@ var details = {
       'type': 'text',
       'placeholder': 'First Name',
       'class': 'form-group form-control',
+      'id' : 'name'
     },
   },
   2: {
     'tagName': 'input',
-    'label' : 'Mobile',
+    'label' : 'Password',
     'attributes':
     {
-      'type': 'number',
-      'placeholder': 'Mobile Number',
+      'type': 'password',
+      'placeholder': 'Password',
       'class': 'form-group form-control',
     },
   },
@@ -72,7 +77,9 @@ var details = {
     'attributes' : 
     {
       'type' : 'radio',
-      'class': 'form-radio-inline',
+      'class': 'form-check-input',
+      'value' : 'radio1',
+      'name' : 'set1'
     }
   },
   9: {
@@ -81,7 +88,9 @@ var details = {
     'attributes' : 
     {
       'type' : 'radio',
-      'class': 'form-radio-inline',
+      'class': 'form-check-input',
+      'value' : 'radio2',
+      'name' : 'set1'
     }
   },
   10 : {
@@ -95,7 +104,7 @@ var details = {
         "D" : "Delhi",
         "M" : "Mumabai",
         "B" : "Bareilly",
-        "A" :"Aligrah",
+        "A" :"Aligarh",
       }
     }
   },
@@ -105,6 +114,14 @@ var details = {
     {
       'class': 'btn btn-dark',
       'innerHTML' : 'Submit',
+    }
+  },
+  12 : {
+    'tagName' : 'input',
+    'attributes' : 
+    {
+      'type' : 'file',
+      'class' : 'mt-2',
     }
   }
 }
