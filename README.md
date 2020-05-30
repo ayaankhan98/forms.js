@@ -183,3 +183,6 @@ will be updating soon
 
 # LICENSE
 All the content is under MIT License, you are free to do anything with this
+
+# Contributions
+Contributions and ideas are welcome as always.
