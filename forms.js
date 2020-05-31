@@ -1,4 +1,4 @@
-/**
+/*
  *    MIT License
  *    
  *    Copyright (c) 2020 Ayaan Khan
@@ -23,9 +23,6 @@
  * 
 */
 
-
-
-
 // var defaultClasses = {
 //   'input': 'form-group form-control',
 //   'select': 'form-group form-control',
@@ -33,42 +30,64 @@
 //   'checkbox': 'form-check-input',
 // }
 
+var includeJQuery = () => {
+  let head = document.querySelector("head");
+  let script1 = document.createElement("script");
+  let script1Src = "https://code.jquery.com/jquery-3.5.1.slim.min.js";
+  let script1IntregityValue = "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj";
+  script1.setAttribute("src", script1Src);
+  script1.setAttribute("integrity", script1IntregityValue);
+  script1.setAttribute("crossorigin", "anonymous");
+  head.append(script1);
+}
+var includeBootsrapJs = () => {
+  let head = document.querySelector("head");
+  let script3 = document.createElement("script");
+  let script3Src = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js";
+  let script3IntegrityValue = "sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI";
+  script3.setAttribute("src", script3Src);
+  script3.setAttribute("integrity", script3IntegrityValue);
+  script3.setAttribute("crossorigin", "anonymous");
+  head.append(script3);
+}
 
-var preSetup = () => {
-  let bootstrap = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-  let integrityValue = "sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-  let head = document.querySelector('head')
-  let bootstrapLink = document.createElement('link')
-  bootstrapLink.setAttribute('rel', 'stylesheet')
-  bootstrapLink.setAttribute('href', bootstrap);
-  bootstrapLink.setAttribute('integrity', integrityValue)
-  bootstrapLink.setAttribute('crossorigin', 'anonymous')
+var includePopperJs = () => {
+  let head = document.querySelector("head");
+  let script2 = document.createElement("script");
+  let script2Src = "https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js";
+  let script2IntegrityValue = "sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo";
+  script2.setAttribute("src", script2Src);
+  script2.setAttribute("integrity", script2IntegrityValue);
+  script2.setAttribute("crossorigin", "anonymous");
+  head.append(script2);
+}
 
-  let script1 = document.createElement('script')
-  let script1Src = 'https://code.jquery.com/jquery-3.5.1.slim.min.js'
-  let script1IntregityValue = 'sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj'
-  script1.setAttribute('src', script1Src)
-  script1.setAttribute('integrity', script1IntregityValue)
-  script1.setAttribute('crossorigin', 'anonymous')
+var includeBootstrapCss = () => {
+  let head = document.querySelector("head");
+  let bootstrap = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css";
+  let integrityValue = "sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk";
+  let bootstrapLink = document.createElement("link");
+  bootstrapLink.setAttribute("rel", "stylesheet");
+  bootstrapLink.setAttribute("href", bootstrap);
+  bootstrapLink.setAttribute("integrity", integrityValue);
+  bootstrapLink.setAttribute("crossorigin", "anonymous");
+  head.append(bootstrapLink);
+}
 
-  let script2 = document.createElement('script')
-  let script2Src = 'https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'
-  let script2IntegrityValue = 'sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo'
-  script2.setAttribute('src', script2Src)
-  script2.setAttribute('integrity', script2IntegrityValue)
-  script2.setAttribute('crossorigin', 'anonymous')
+var setViewPort = () => {
+  let head = document.querySelector("head");
+  let viewport = document.createElement("meta");
+  viewport.setAttribute("name","viewport");
+  viewport.setAttribute("content","width=device-width, initial-scale=1, shrink-to-fit=no");
+  head.append(viewport);
+}
 
-  let script3 = document.createElement('script')
-  let script3Src = 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js'
-  let script3IntegrityValue = 'sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI'
-  script3.setAttribute('src', script3Src)
-  script3.setAttribute('integrity', script3IntegrityValue)
-  script3.setAttribute('crossorigin', 'anonymous')
-
-  head.append(bootstrapLink)
-  head.append(script1)
-  head.append(script2)
-  head.append(script3)
+async function preSetup () {
+  await setViewPort();
+  await includeJQuery();
+  await includeBootstrapCss();
+  await includePopperJs();
+  await includeBootsrapJs();
 }
 
 var readObject = (details, formTagID) => {
@@ -80,29 +99,29 @@ var readObject = (details, formTagID) => {
           "configuration" : {
             ....
           }
-      }`
+      }`;
     }
     if (formTagID === undefined) {
-      throw `Error no formTagID found`
+      throw `Error no formTagID found`;
     }
   }
   catch (error) {
-    console.log(error)
+    console.log(error);
     return;
   }
-  let config = details["configuration"]
-  delete (details["configuration"])
+  let config = details["configuration"];
+  delete (details["configuration"]);
   for (var key in details) {
     if (typeof (details[key]) === "object") {
-      var tagID = parseInt(key)
+      var tagID = parseInt(key);
       if (tagID != NaN) {
-        var element = details[key]["tagName"]
-        var attributes = details[key]["attributes"]
-        var label = details[key]["label"]
+        var element = details[key]["tagName"];
+        var attributes = details[key]["attributes"];
+        var label = details[key]["label"];
         // console.log(element)
         // console.log(label)
         // console.log(attributes)
-        createTag(element, label, attributes, formTagID, config)
+        createTag(element, label, attributes, formTagID, config);
       }
     }
     // if (typeof (details[key]) === "object" && typeof (key) != "number") {
@@ -111,29 +130,29 @@ var readObject = (details, formTagID) => {
 }
 
 var createTag = (tagName, labelName, attributes, formTagID, config) => {
-  const form = document.querySelector(`#${formTagID}`)
+  const form = document.querySelector(`#${formTagID}`);
 
-  let label = undefined
-  let row = document.createElement('div')
-  row.setAttribute('class', 'row')
+  let label = undefined;
+  let row = document.createElement("div");
+  row.setAttribute('class', "row");
 
-  if (config['d-left'] != undefined) {
-    let dLeft = document.createElement('div')
-    dLeft.setAttribute('class', `col-md-${config['d-left']}`)
-    row.append(dLeft)
+  if (config["d-left"] != undefined) {
+    let dLeft = document.createElement("div");
+    dLeft.setAttribute("class", `col-md-${config["d-left"]}`);
+    row.append(dLeft);
   }
 
-  let div = document.createElement('div')
-  div.setAttribute('class', `col-md-${config["form-width"]}`)
+  let div = document.createElement('div');
+  div.setAttribute('class', `col-md-${config["form-width"]}`);
   if (attributes['type'] === 'radio') {
-    div.setAttribute('class', `col-md-${config["form-width"]} form-check ml-3`)
+    div.setAttribute('class', `col-md-${config["form-width"]} form-check ml-3`);
   }
   if (labelName != undefined) {
-    label = document.createElement('label')
-    label.innerHTML = labelName
+    label = document.createElement('label');
+    label.innerHTML = labelName;
   }
 
-  let element = document.createElement(tagName)
+  let element = document.createElement(tagName);
   // if (tagName === 'input') { 
   //   element.setAttribute('class', defaultClasses["input"]) 
   // } else if (tagName === 'select') {
@@ -148,22 +167,22 @@ var createTag = (tagName, labelName, attributes, formTagID, config) => {
 
   for (let attribute in attributes) {
     if (attribute === 'innerHTML') {
-      element.innerHTML = attributes[attribute]
+      element.innerHTML = attributes[attribute];
     } else if (attribute === 'required') {
       if (attributes[attribute] === "true" || attributes[attribute] === true) {
-        element.required = true
+        element.required = true;
       }
     } else {
-      element.setAttribute(attribute, attributes[attribute])
+      element.setAttribute(attribute, attributes[attribute]);
     }
   }
   if (tagName === "select") {
-    let options = attributes["options"]
+    let options = attributes["options"];
     for (let option in options) {
-      let optionTag = document.createElement('option')
-      optionTag.setAttribute('value', option)
-      optionTag.innerHTML = options[option]
-      element.append(optionTag)
+      let optionTag = document.createElement('option');
+      optionTag.setAttribute('value', option);
+      optionTag.innerHTML = options[option];
+      element.append(optionTag);
     }
     // options.forEach(option => {
     //   let optionTag = document.createElement('option')
@@ -172,14 +191,14 @@ var createTag = (tagName, labelName, attributes, formTagID, config) => {
     // })
   }
   if (attributes["type"] === 'checkbox' || attributes["type"] == "radio") {
-    div.append(element)
-    div.append(label)
+    div.append(element);
+    div.append(label);
   } else {
     if (label != undefined) {
-      div.append(label)
+      div.append(label);
     }
-    div.append(element)
+    div.append(element);
   }
-  row.append(div)
-  form.append(row)
+  row.append(div);
+  form.append(row);
 }
