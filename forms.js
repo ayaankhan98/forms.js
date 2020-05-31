@@ -23,13 +23,13 @@
  * 
 */
 
-// var defaultClasses = {
-//   'input': 'form-group form-control',
-//   'select': 'form-group form-control',
-//   'radio': 'form-check-input',
-//   'checkbox': 'form-check-input',
-// }
-
+var includeHandlebarsJs = () => {
+  let head = document.querySelector("head");
+  let handlebarsjs = document.createElement("script");
+  handlebarsjsSrc = "https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"
+  handlebarsjs.setAttribute("src",handlebarsjsSrc);
+  head.append(handlebarsjs);
+}
 var includeJQuery = () => {
   let head = document.querySelector("head");
   let script1 = document.createElement("script");
@@ -82,12 +82,13 @@ var setViewPort = () => {
   head.append(viewport);
 }
 
-async function preSetup () {
-  await setViewPort();
-  await includeJQuery();
-  await includeBootstrapCss();
-  await includePopperJs();
-  await includeBootsrapJs();
+var preSetup = () => {
+  setViewPort();
+  includeJQuery();
+  includeBootstrapCss();
+  includePopperJs();
+  includeBootsrapJs();
+  includeHandlebarsJs();
 }
 
 var readObject = (details, formTagID) => {
