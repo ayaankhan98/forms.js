@@ -138,9 +138,9 @@ var details = {
       'options' : 
       {
         "D" : "Delhi",
-        "M" : "Mumabai",
+        "M" : "Mumbai",
         "B" : "Bareilly",
-        "A" :"Aligrah",
+        "A" : "Aligarh",
       }
     }
   },
