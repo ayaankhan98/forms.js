@@ -179,7 +179,12 @@ currently this will be able to genrate only
 - select box
 
 # Goals
-will be updating soon
+- Transforming forms into panel to provide more flexiable controll over large forms
+- Add flexible animations for smooth transition effect while switching back and forth the form panels
+- Provide more flexible generic idea to implementaion to give more control for the user to modify json in whatever way they want
+- Providing flexibility for check fields such as radio and checkboxes
+
+will be more updating soon
 
 # LICENSE
 All the content is under MIT License, you are free to do anything with this
