@@ -1,4 +1,5 @@
 /*
+ *    @license
  *    MIT License
  *    
  *    Copyright (c) 2020 Ayaan Khan
@@ -88,10 +89,14 @@ var preSetup = () => {
   includeBootstrapCss();
   includePopperJs();
   includeBootsrapJs();
-  includeHandlebarsJs();
+ includeHandlebarsJs();
 }
 
 var readObject = (details, formTagID) => {
+
+
+////////////////////////////////////////////////////////
+  
   try {
     if (details["configuration"] === undefined) {
       throw `Error : No configuration found
@@ -112,23 +117,142 @@ var readObject = (details, formTagID) => {
   }
   let config = details["configuration"];
   delete (details["configuration"]);
-  for (var key in details) {
-    if (typeof (details[key]) === "object") {
-      var tagID = parseInt(key);
-      if (tagID != NaN) {
-        var element = details[key]["tagName"];
-        var attributes = details[key]["attributes"];
-        var label = details[key]["label"];
-        // console.log(element)
-        // console.log(label)
-        // console.log(attributes)
-        createTag(element, label, attributes, formTagID, config);
-      }
+
+
+///////////////////////////////////////////////////////
+
+  var bodyElement = document.querySelector("body");
+
+  var templateDiv = document.createElement("div");
+  templateDiv.setAttribute("id","template-div");
+
+  bodyElement.append(templateDiv);
+
+  for (var panel in details) {
+
+    var panelID = panel;
+    panel = details[panel];
+
+    createPanel(panelID);
+    // console.log(panel);
+
+    for(var component in panel) {
+
+      var componentID = component;
+      component = panel[component];
+
+      // console.log(component);
+      createComponent(panelID,componentID,component);
+  
+      
     }
+
+    // when a panel is created then compile the panel and plug 
+    // it into the DOM based on the panel number and 
+    // corrosponding sliding page number
+    // such as if the current sliding page number is 4 then the panel 
+    // number 4 will be plugged into the DOM and user swithces back and
+    // forth the panels then the corrosponding panel should also change
+
+    const compiledPanel = Handlebars.compile(document.querySelector(`#panel-${panelID}`).innerHTML);
+    // console.log(compiledPanel());
+    const appendForm = document.querySelector(`#${formTagID}`);
+    console.log(appendForm);
+    appendForm.innerHTML = compiledPanel();
+
+    // if (typeof (details[key]) === "object") {
+    //   var tagID = parseInt(key);
+    //   if (tagID != NaN) {
+    //     var element = details[key]["tagName"];
+    //     var attributes = details[key]["attributes"];
+    //     var label = details[key]["label"];
+    //     // console.log(element)
+    //     // console.log(label)
+    //     // console.log(attributes)
+    //     createTag(element, label, attributes, formTagID, config);
+    //   }
+    // }
     // if (typeof (details[key]) === "object" && typeof (key) != "number") {
     // }
   }
 }
+
+var createPanel = (panelID) => {
+
+  let templateDiv = document.querySelector("#template-div");
+
+  // console.log(templateDiv)
+
+  let panel = document.createElement("script");
+  panel.setAttribute("type","text/x-handlebars-template");
+  panel.setAttribute("id",`panel-${panelID}`);
+
+  templateDiv.append(panel);
+
+  // console.log(templateDiv)
+}
+
+
+var createComponent = (panelID,componentID,componentDetails) => {
+
+ // console.log(componentDetails);
+
+  var panel = document.querySelector(`#panel-${panelID}`);
+  
+  
+  var label = document.createElement("label");
+  label.setAttribute("for",`${componentDetails["label"]}`);
+
+  var labelSpan = document.createElement("span");
+  labelSpan.innerHTML = componentDetails["label"];
+  label.append(labelSpan);
+
+  var element = document.createElement(`${componentDetails["tagName"]}`);
+  for(let attribute in componentDetails["attributes"]) {
+    // console.log(attribute);
+    // console.log(componentDetails["attributes"][attribute])
+
+    if (attribute === "innerHTML") {
+      // for handling buttons
+      element.innerHTML = componentDetails["attributes"][attribute];
+    } else {
+      // for handling things other than button
+      element.setAttribute(attribute,componentDetails["attributes"][attribute])
+    }
+  }
+
+
+  if (componentDetails["labelPosition"] === "left" ) {
+
+    // within the same row in two different columns
+    let row = document.createElement("div");
+    row.setAttribute("class","row");
+    let colOne = document.createElement("div");
+    colOne.setAttribute("class","col-md-2");
+    let colTwo = document.createElement("div");
+    colTwo.setAttribute("class","col-md-5");
+    colOne.append(label);
+    colTwo.append(element);
+    row.append(colOne);
+    row.append(colTwo);
+
+    // now this row is a complete component in itself
+    // now put this newly created component inside the panel
+
+    panel.append(row);
+
+    // console.log(panel);
+
+  } else if (componentDetails["labelPosition"] === "top") {
+
+    // place the label and corrosponding component in different div
+  }
+  // console.log(panel)
+  // console.log(componentDetails);
+
+}
+
+
 
 var createTag = (tagName, labelName, attributes, formTagID, config) => {
   const form = document.querySelector(`#${formTagID}`);
