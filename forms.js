@@ -157,8 +157,10 @@ var readObject = (details, formTagID) => {
     const compiledPanel = Handlebars.compile(document.querySelector(`#panel-${panelID}`).innerHTML);
     // console.log(compiledPanel());
     const appendForm = document.querySelector(`#${formTagID}`);
-    console.log(appendForm);
-    appendForm.innerHTML = compiledPanel();
+    // console.log(appendForm);
+    const tempTag = document.createElement("div");
+    tempTag.innerHTML = compiledPanel();
+    appendForm.append(tempTag);
 
     // if (typeof (details[key]) === "object") {
     //   var tagID = parseInt(key);
@@ -195,7 +197,7 @@ var createPanel = (panelID) => {
 
 var createComponent = (panelID,componentID,componentDetails) => {
 
- // console.log(componentDetails);
+  console.log(componentDetails);
 
   var panel = document.querySelector(`#panel-${panelID}`);
   
@@ -211,6 +213,21 @@ var createComponent = (panelID,componentID,componentDetails) => {
   for(let attribute in componentDetails["attributes"]) {
     // console.log(attribute);
     // console.log(componentDetails["attributes"][attribute])
+
+    // Handling select boxes
+    if (componentDetails["tagName"] === "select") {
+      if (attribute === "options") {
+        let options = componentDetails["attributes"]["options"];
+        // console.log(options);
+        for (let option in options) {
+          let optionTag = document.createElement("option");
+          optionTag.setAttribute("value",option);
+          optionTag.innerHTML = options[option];
+          element.append(optionTag);
+          console.log(element);
+        }
+      }
+    }
 
     if (attribute === "innerHTML") {
       // for handling buttons
