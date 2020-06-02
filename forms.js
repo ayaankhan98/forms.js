@@ -35,6 +35,7 @@ var includeHandlebarsJs = () => {
   handlebarsjs.setAttribute("src", handlebarsjsSrc);
   head.append(handlebarsjs);
 }
+
 var includeJQuery = () => {
   let head = document.querySelector("head");
   let script1 = document.createElement("script");
@@ -45,6 +46,7 @@ var includeJQuery = () => {
   script1.setAttribute("crossorigin", "anonymous");
   head.append(script1);
 }
+
 var includeBootsrapJs = () => {
   let head = document.querySelector("head");
   let script3 = document.createElement("script");
@@ -123,7 +125,7 @@ var readObject = (details, formTagID) => {
   delete (details["configuration"]);
 
 
-  ///////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
 
   var linkPanel = [];
   for (p in details) {
@@ -219,6 +221,12 @@ var createComponent = (panelID, componentID, componentDetails) => {
 
   // console.log(componentDetails);
 
+  // setting defaults at the top for consistency 
+  if (componentDetails["labelPosition"] === undefined) {
+    // default label position is left
+    componentDetails["labelPosition"] = "left";
+  }
+
   var panel = document.querySelector(`#fieldset-panel-${panelID}`);
 
   if (componentDetails["label"] != undefined) {
@@ -228,6 +236,58 @@ var createComponent = (panelID, componentID, componentDetails) => {
     var labelSpan = document.createElement("span");
     labelSpan.innerHTML = componentDetails["label"];
     label.append(labelSpan);
+  }
+
+  if (componentDetails["tagName"] === "input" && componentDetails["attributes"]["type"] === "radio") {
+    console.log("Hah");
+    let options = componentDetails["attributes"]["options"];
+    console.log(options)
+    let parentRadiodiv = document.createElement("div");
+    parentRadiodiv.setAttribute("class","row");
+
+    let col1 = document.createElement("div");
+    let col2 = document.createElement("div");
+
+    col1.setAttribute("class","col-md-2");
+    col2.setAttribute("class","col-md-5");
+    
+    parentRadiodiv.append(col1);
+    parentRadiodiv.append(col2);
+
+    for (let option in options) {
+      console.log(option)
+      let radioLabel = document.createElement("span");
+      radioLabel.innerHTML = options[option];
+      let radio = document.createElement("input");
+      radio.setAttribute("type", "radio");
+      radio.setAttribute("name", componentDetails["name"]);
+
+      let radiodiv = document.createElement("div");
+      radiodiv.setAttribute("class","row");
+
+      let internalCol1 = document.createElement("div");
+      let internalCol2 = document.createElement("div");
+  
+      internalCol1.setAttribute("class","col-md-1");
+      internalCol2.setAttribute("class","col-md-6");
+
+      internalCol1.append(radio);
+      internalCol2.append(radioLabel);
+
+      radiodiv.append(internalCol1);
+      radiodiv.append(internalCol2);
+
+      col2.append(radiodiv);
+    }
+    if (label != undefined) {
+      radioMainLabel = document.createElement("div");
+      radioMainLabel.setAttribute("class", "row");
+      radioMainLabel.append(label);
+      col1.append(radioMainLabel);
+    }
+
+    panel.append(parentRadiodiv);
+    return;
   }
 
   var element = document.createElement(`${componentDetails["tagName"]}`);
@@ -259,9 +319,7 @@ var createComponent = (panelID, componentID, componentDetails) => {
     }
   }
 
-  if (componentDetails["labelPosition"] === undefined) {
-    componentDetails["labelPosition"] = "left";
-  }
+
   if (componentDetails["labelPosition"] === "left") {
 
     // within the same row in two different columns
@@ -286,8 +344,21 @@ var createComponent = (panelID, componentID, componentDetails) => {
     // console.log(panel);
 
   } else if (componentDetails["labelPosition"] === "top") {
-
     // place the label and corrosponding component in different div
+    console.log("true");
+    let divCombie = document.createElement("div");
+    let row1 = document.createElement("div");
+    let row2 = document.createElement("div");
+    row1.setAttribute("class", "col-md-6");
+    row2.setAttribute("class", "col-md-6");
+    if (label != undefined) {
+      row1.append(label);
+    }
+    row2.append(element);
+
+    divCombie.append(row1);
+    divCombie.append(row2);
+    panel.append(divCombie);
   }
 
   // console.log(panel)
@@ -356,7 +427,7 @@ var linkPanels = (panels) => {
 var renderPanels = (panels) => {
 
   createAnimation();
-  
+
   for (let id in panels) {
     const compiledPanel = Handlebars.compile(document.querySelector(`#panel-${panels[id]}`).innerHTML);
     // console.log(compiledPanel());
@@ -367,7 +438,7 @@ var renderPanels = (panels) => {
     appendForm.append(tempTag);
   }
 
-  for(let id in panels) {
+  for (let id in panels) {
     // console.log(panels[id])
     let currnetVisiblePanel = `parent-panel-${panels[id]}`;
     // console.log(currnetVisiblePanel)
@@ -383,7 +454,7 @@ var renderPanels = (panels) => {
     if (event.target.className === "navbtn btn btn-primary btn-sm") {
       // console.log(currnetVisiblePanel)
       // console.log(event.target.dataset.link);
-      
+
       document.querySelector(`#${currnetVisiblePanel}`).hidden = true;
       document.querySelector(`#parent-${event.target.dataset.link}`).hidden = false;
       currnetVisiblePanel = `parent-${event.target.dataset.link}`;
@@ -413,7 +484,7 @@ var createAnimation = () => {
   animation-fill-mode: forwards;
 }`
 
-head.append(styleTag);
+  head.append(styleTag);
 }
 
 var createTag = (tagName, labelName, attributes, formTagID, config) => {
