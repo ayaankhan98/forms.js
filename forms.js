@@ -198,7 +198,7 @@ var createPanel = (panelID) => {
   panel.setAttribute("id", `panel-${panelID}`);
 
   let tempdiv = document.createElement("div");
-  tempdiv.setAttribute("id",`panel-${panelID}`)
+  tempdiv.setAttribute("id", `parent-panel-${panelID}`)
   let fieldsetElement = document.createElement("fieldset");
   fieldsetElement.setAttribute("id", `fieldset-panel-${panelID}`)
   tempdiv.setAttribute("class", "border border-dark rounded p-5 m-5") //
@@ -302,8 +302,8 @@ var linkPanels = (panels) => {
   for (var id in panels) {
 
     id = parseInt(id);
-    console.log(typeof(id));
-    console.log(`panel-${panels[id]}`)
+    // console.log(typeof (id));
+    // console.log(`panel-${panels[id]}`)
     const navRow = document.createElement("div");
     navRow.setAttribute("class", "row");
 
@@ -344,9 +344,9 @@ var linkPanels = (panels) => {
     navRow.append(c3);
     navRow.append(c4);
 
-    const currentPanel = document.querySelector(`#panel-${panels[id]}`);
+    const currentPanel = document.querySelector(`#parent-panel-${panels[id]}`);
     if (currentPanel != null) {
-      console.log(currentPanel);
+      // console.log(currentPanel);
       currentPanel.append(navRow);
     }
   }
@@ -355,21 +355,37 @@ var linkPanels = (panels) => {
 
 var renderPanels = (panels) => {
 
-  const compiledPanel = Handlebars.compile(document.querySelector(`#panel-${panels[0]}`).innerHTML);
-  // console.log(compiledPanel());
-  const appendForm = document.querySelector(`#${formTagID}`);
-  // console.log(appendForm);
-  const tempTag = document.createElement("div");
-  tempTag.innerHTML = compiledPanel();
-  appendForm.append(tempTag);
-  
-  let currnetVisiblePanel = `panel-${panels[0]}`;
-  console.log(currnetVisiblePanel);
+  for (let id in panels) {
+    const compiledPanel = Handlebars.compile(document.querySelector(`#panel-${panels[id]}`).innerHTML);
+    // console.log(compiledPanel());
+    const appendForm = document.querySelector(`#${formTagID}`);
+    // console.log(appendForm);
+    const tempTag = document.createElement("div");
+    tempTag.innerHTML = compiledPanel();
+    appendForm.append(tempTag);
+  }
+
+  for(let id in panels) {
+    // console.log(panels[id])
+    let currnetVisiblePanel = `parent-panel-${panels[id]}`;
+    // console.log(currnetVisiblePanel)
+    document.querySelector(`#${currnetVisiblePanel}`).hidden = true
+  }
+
+  let currnetVisiblePanel = `parent-panel-${panels[0]}`;
+  document.querySelector(`#${currnetVisiblePanel}`).hidden = false
+
+  // console.log(currnetVisiblePanel);
   document.addEventListener('click', (event) => {
-    console.log(event.target.className);
+    // console.log(event.target.className);
     if (event.target.className === "navbtn btn btn-primary btn-sm") {
-      console.log(event.target.dataset.link);
-      document.querySelector(`#${currnetVisiblePanel}`).hidden = true
+      // console.log(currnetVisiblePanel)
+      // console.log(event.target.dataset.link);
+      
+      document.querySelector(`#${currnetVisiblePanel}`).hidden = true;
+      document.querySelector(`#parent-${event.target.dataset.link}`).hidden = false;
+      currnetVisiblePanel = `parent-${event.target.dataset.link}`;
+      event.preventDefault();
     }
   });
 
