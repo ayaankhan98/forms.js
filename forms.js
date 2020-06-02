@@ -24,11 +24,15 @@
  * 
 */
 
+var defaultConfig = {
+  "labelPosition": "left",
+}
+
 var includeHandlebarsJs = () => {
   let head = document.querySelector("head");
   let handlebarsjs = document.createElement("script");
   handlebarsjsSrc = "https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"
-  handlebarsjs.setAttribute("src",handlebarsjsSrc);
+  handlebarsjs.setAttribute("src", handlebarsjsSrc);
   head.append(handlebarsjs);
 }
 var includeJQuery = () => {
@@ -78,8 +82,8 @@ var includeBootstrapCss = () => {
 var setViewPort = () => {
   let head = document.querySelector("head");
   let viewport = document.createElement("meta");
-  viewport.setAttribute("name","viewport");
-  viewport.setAttribute("content","width=device-width, initial-scale=1, shrink-to-fit=no");
+  viewport.setAttribute("name", "viewport");
+  viewport.setAttribute("content", "width=device-width, initial-scale=1, shrink-to-fit=no");
   head.append(viewport);
 }
 
@@ -89,14 +93,14 @@ var preSetup = () => {
   includeBootstrapCss();
   includePopperJs();
   includeBootsrapJs();
- includeHandlebarsJs();
+  includeHandlebarsJs();
 }
 
 var readObject = (details, formTagID) => {
 
 
-////////////////////////////////////////////////////////
-  
+  ////////////////////////////////////////////////////////
+
   try {
     if (details["configuration"] === undefined) {
       throw `Error : No configuration found
@@ -119,12 +123,16 @@ var readObject = (details, formTagID) => {
   delete (details["configuration"]);
 
 
-///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
 
+  var linkPanel = [];
+  for (p in details) {
+    linkPanel.push(p);
+  }
   var bodyElement = document.querySelector("body");
 
   var templateDiv = document.createElement("div");
-  templateDiv.setAttribute("id","template-div");
+  templateDiv.setAttribute("id", "template-div");
 
   bodyElement.append(templateDiv);
 
@@ -136,17 +144,14 @@ var readObject = (details, formTagID) => {
     createPanel(panelID);
     // console.log(panel);
 
-    for(var component in panel) {
+    for (var component in panel) {
 
       var componentID = component;
       component = panel[component];
-
       // console.log(component);
-      createComponent(panelID,componentID,component);
-  
-      
-    }
+      createComponent(panelID, componentID, component);
 
+    }
     // when a panel is created then compile the panel and plug 
     // it into the DOM based on the panel number and 
     // corrosponding sliding page number
@@ -154,13 +159,14 @@ var readObject = (details, formTagID) => {
     // number 4 will be plugged into the DOM and user swithces back and
     // forth the panels then the corrosponding panel should also change
 
-    const compiledPanel = Handlebars.compile(document.querySelector(`#panel-${panelID}`).innerHTML);
-    // console.log(compiledPanel());
-    const appendForm = document.querySelector(`#${formTagID}`);
-    // console.log(appendForm);
-    const tempTag = document.createElement("div");
-    tempTag.innerHTML = compiledPanel();
-    appendForm.append(tempTag);
+    // const compiledPanel = Handlebars.compile(document.querySelector(`#panel-${panelID}`).innerHTML);
+    // // console.log(compiledPanel());
+    // const appendForm = document.querySelector(`#${formTagID}`);
+    // // console.log(appendForm);
+    // const tempTag = document.createElement("div");
+    // tempTag.innerHTML = compiledPanel();
+    // appendForm.append(tempTag);
+
 
     // if (typeof (details[key]) === "object") {
     //   var tagID = parseInt(key);
@@ -177,6 +183,8 @@ var readObject = (details, formTagID) => {
     // if (typeof (details[key]) === "object" && typeof (key) != "number") {
     // }
   }
+  linkPanels(linkPanel);
+  renderPanels(linkPanel);
 }
 
 var createPanel = (panelID) => {
@@ -186,31 +194,44 @@ var createPanel = (panelID) => {
   // console.log(templateDiv)
 
   let panel = document.createElement("script");
-  panel.setAttribute("type","text/x-handlebars-template");
-  panel.setAttribute("id",`panel-${panelID}`);
+  panel.setAttribute("type", "text/x-handlebars-template");
+  panel.setAttribute("id", `panel-${panelID}`);
 
+  let tempdiv = document.createElement("div");
+  tempdiv.setAttribute("id",`panel-${panelID}`)
+  let fieldsetElement = document.createElement("fieldset");
+  fieldsetElement.setAttribute("id", `fieldset-panel-${panelID}`)
+  tempdiv.setAttribute("class", "border border-dark rounded p-5 m-5") //
+  let fieldsetLegend = document.createElement("legend");
+  fieldsetLegend.innerHTML = panelID;
+  fieldsetElement.append(fieldsetLegend);
+  tempdiv.append(fieldsetElement);
+
+
+  panel.append(tempdiv);
   templateDiv.append(panel);
 
   // console.log(templateDiv)
 }
 
 
-var createComponent = (panelID,componentID,componentDetails) => {
+var createComponent = (panelID, componentID, componentDetails) => {
 
-  console.log(componentDetails);
+  // console.log(componentDetails);
 
-  var panel = document.querySelector(`#panel-${panelID}`);
-  
-  
-  var label = document.createElement("label");
-  label.setAttribute("for",`${componentDetails["label"]}`);
+  var panel = document.querySelector(`#fieldset-panel-${panelID}`);
 
-  var labelSpan = document.createElement("span");
-  labelSpan.innerHTML = componentDetails["label"];
-  label.append(labelSpan);
+  if (componentDetails["label"] != undefined) {
+    var label = document.createElement("label");
+    label.setAttribute("for", `${componentDetails["label"]}`);
+
+    var labelSpan = document.createElement("span");
+    labelSpan.innerHTML = componentDetails["label"];
+    label.append(labelSpan);
+  }
 
   var element = document.createElement(`${componentDetails["tagName"]}`);
-  for(let attribute in componentDetails["attributes"]) {
+  for (let attribute in componentDetails["attributes"]) {
     // console.log(attribute);
     // console.log(componentDetails["attributes"][attribute])
 
@@ -221,10 +242,10 @@ var createComponent = (panelID,componentID,componentDetails) => {
         // console.log(options);
         for (let option in options) {
           let optionTag = document.createElement("option");
-          optionTag.setAttribute("value",option);
+          optionTag.setAttribute("value", option);
           optionTag.innerHTML = options[option];
           element.append(optionTag);
-          console.log(element);
+          // console.log(element);
         }
       }
     }
@@ -234,21 +255,25 @@ var createComponent = (panelID,componentID,componentDetails) => {
       element.innerHTML = componentDetails["attributes"][attribute];
     } else {
       // for handling things other than button
-      element.setAttribute(attribute,componentDetails["attributes"][attribute])
+      element.setAttribute(attribute, componentDetails["attributes"][attribute])
     }
   }
 
-
-  if (componentDetails["labelPosition"] === "left" ) {
+  if (componentDetails["labelPosition"] === undefined) {
+    componentDetails["labelPosition"] = "left";
+  }
+  if (componentDetails["labelPosition"] === "left") {
 
     // within the same row in two different columns
     let row = document.createElement("div");
-    row.setAttribute("class","row");
+    row.setAttribute("class", "row");
     let colOne = document.createElement("div");
-    colOne.setAttribute("class","col-md-2");
+    colOne.setAttribute("class", "col-md-2");
     let colTwo = document.createElement("div");
-    colTwo.setAttribute("class","col-md-5");
-    colOne.append(label);
+    colTwo.setAttribute("class", "col-md-5");
+    if (label != undefined) {
+      colOne.append(label);
+    }
     colTwo.append(element);
     row.append(colOne);
     row.append(colTwo);
@@ -264,11 +289,69 @@ var createComponent = (panelID,componentID,componentDetails) => {
 
     // place the label and corrosponding component in different div
   }
+
   // console.log(panel)
   // console.log(componentDetails);
 
 }
 
+var linkPanels = (panels) => {
+
+  // console.log(panels.length)
+
+  for (var id in panels) {
+
+    id = parseInt(id);
+    console.log(typeof(id));
+    console.log(`panel-${panels[id]}`)
+    const navRow = document.createElement("div");
+    navRow.setAttribute("class", "row");
+
+    const c1 = document.createElement("div");
+    c1.setAttribute("class", "col-md-5")
+    const c2 = document.createElement("div");
+    c2.setAttribute("class", "col-md-1")
+    const c3 = document.createElement("div");
+    c3.setAttribute("class", "col-md-1")
+    const c4 = document.createElement("div");
+    c4.setAttribute("class", "col-md-2")
+
+    const prev = document.createElement("button");
+    const next = document.createElement("button");
+
+    prev.setAttribute("class", "navbtn btn btn-primary btn-sm");
+    next.setAttribute("class", "navbtn btn btn-primary btn-sm");
+
+    if (id === 0) {
+      prev.setAttribute("data-link", `panel-${panels[panels.length - 1]}`);
+    } else {
+      prev.setAttribute("data-link", `panel-${panels[id - 1]}`);
+    }
+    if (id === panels.length - 1) {
+      next.setAttribute("data-link", `panel-${panels[0]}`);
+    } else {
+      next.setAttribute("data-link", `panel-${panels[id + 1]}`);
+    }
+
+    prev.innerText = "<";
+    next.innerText = ">";
+
+    c2.append(prev);
+    c3.append(next);
+
+    navRow.append(c1);
+    navRow.append(c2);
+    navRow.append(c3);
+    navRow.append(c4);
+
+    const currentPanel = document.querySelector(`#panel-${panels[id]}`);
+    if (currentPanel != null) {
+      console.log(currentPanel);
+      currentPanel.append(navRow);
+    }
+  }
+
+}
 
 
 var createTag = (tagName, labelName, attributes, formTagID, config) => {
