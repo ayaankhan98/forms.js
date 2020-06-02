@@ -143,7 +143,7 @@ var readObject = (details, formTagID) => {
     var panelID = panel;
     panel = details[panel];
 
-    createPanel(panelID);
+    createPanel(panelID, config);
     // console.log(panel);
 
     for (var component in panel) {
@@ -151,7 +151,7 @@ var readObject = (details, formTagID) => {
       var componentID = component;
       component = panel[component];
       // console.log(component);
-      createComponent(panelID, componentID, component);
+      createComponent(panelID, componentID, component, config);
 
     }
     // when a panel is created then compile the panel and plug 
@@ -189,35 +189,51 @@ var readObject = (details, formTagID) => {
   renderPanels(linkPanel);
 }
 
-var createPanel = (panelID) => {
+var createPanel = (panelID, config) => {
 
   let templateDiv = document.querySelector("#template-div");
 
   // console.log(templateDiv)
+  console.log(config["form-width"]);
 
   let panel = document.createElement("script");
   panel.setAttribute("type", "text/x-handlebars-template");
   panel.setAttribute("id", `panel-${panelID}`);
 
+  let internalPanelContainer = document.createElement("div");
+  internalPanelContainer.setAttribute("class", "row");
+
+  let panelLeftMargin = document.createElement("div");
+  panelLeftMargin.setAttribute("class", `col-md-${config["d-left"]}`); // left margin for form
+
+  internalPanelContainer.append(panelLeftMargin);
+
   let tempdiv = document.createElement("div");
-  tempdiv.setAttribute("id", `parent-panel-${panelID}`)
+  tempdiv.setAttribute("id", `parent-panel-${panelID}`);
+
+  let panelContentContainer = document.createElement("div");
+  panelContentContainer.setAttribute("class", `col-md-${config["form-width"]}`); // form-size
 
   let fieldsetElement = document.createElement("fieldset");
   fieldsetElement.setAttribute("id", `fieldset-panel-${panelID}`)
-  tempdiv.setAttribute("class", "maincontent border border-dark rounded p-5 m-5") //
+  tempdiv.setAttribute("class", "maincontent rounded p-5 m-5") //
   let fieldsetLegend = document.createElement("legend");
   fieldsetLegend.innerHTML = panelID;
   fieldsetElement.append(fieldsetLegend);
   tempdiv.append(fieldsetElement);
 
-  panel.append(tempdiv);
+  panelContentContainer.append(tempdiv)
+
+  internalPanelContainer.append(panelContentContainer);
+
+  panel.append(internalPanelContainer);
   templateDiv.append(panel);
 
   // console.log(templateDiv)
 }
 
 
-var createComponent = (panelID, componentID, componentDetails) => {
+var createComponent = (panelID, componentID, componentDetails, config) => {
 
   // console.log(componentDetails);
 
@@ -286,7 +302,7 @@ var createComponent = (panelID, componentID, componentDetails) => {
     }
     if (label != undefined) {
       radioMainLabel = document.createElement("div");
-      radioMainLabel.setAttribute("class", "row");
+      radioMainLabel.setAttribute("class", "row pl-3");
       radioMainLabel.append(label);
       col1.append(radioMainLabel);
     }
@@ -333,7 +349,7 @@ var createComponent = (panelID, componentID, componentDetails) => {
     let colOne = document.createElement("div");
     colOne.setAttribute("class", "col-md-2");
     let colTwo = document.createElement("div");
-    colTwo.setAttribute("class", "col-md-5");
+    colTwo.setAttribute("class", `col-md-${parseInt(config["form-width"]) - 2}`);
     if (label != undefined) {
       colOne.append(label);
     }
@@ -352,10 +368,11 @@ var createComponent = (panelID, componentID, componentDetails) => {
     // place the label and corrosponding component in different div
     // console.log("true");
     let divCombie = document.createElement("div");
+    divCombie.setAttribute("class", `col-md-${config["form-width"]}`);
     let row1 = document.createElement("div");
     let row2 = document.createElement("div");
-    row1.setAttribute("class", "col-md-6");
-    row2.setAttribute("class", "col-md-6");
+    row1.setAttribute("class", `col-md-${config["form-width"]}`);
+    row2.setAttribute("class", `col-md-${config["form-width"]}`);
     if (label != undefined) {
       row1.append(label);
     }
@@ -381,22 +398,24 @@ var linkPanels = (panels) => {
     // console.log(typeof (id));
     // console.log(`panel-${panels[id]}`)
     const navRow = document.createElement("div");
-    navRow.setAttribute("class", "row");
+    navRow.setAttribute("class", "row mx-auto");
 
     const c1 = document.createElement("div");
-    c1.setAttribute("class", "col-md-5")
+    c1.setAttribute("class", "col-md-5 m-1")
     const c2 = document.createElement("div");
-    c2.setAttribute("class", "col-md-1")
+    c2.setAttribute("class", "col-md-2 m-1")
     const c3 = document.createElement("div");
-    c3.setAttribute("class", "col-md-1")
+    c3.setAttribute("class", "col-md-5 m-1")
     const c4 = document.createElement("div");
-    c4.setAttribute("class", "col-md-2")
+    c4.setAttribute("class", "col-md-1")
 
     const prev = document.createElement("button");
     const next = document.createElement("button");
 
-    prev.setAttribute("class", "navbtn btn btn-primary btn-sm");
-    next.setAttribute("class", "navbtn btn btn-primary btn-sm");
+    prev.setAttribute("class", "navbtn btn btn-primary btn-sm m-2");
+    next.setAttribute("class", "navbtn btn btn-primary btn-sm m-2");
+    prev.setAttribute("data-identify", "navbtn");
+    next.setAttribute("data-identify", "navbtn")
 
     if (id === 0) {
       prev.setAttribute("data-link", `panel-${panels[panels.length - 1]}`);
@@ -413,12 +432,12 @@ var linkPanels = (panels) => {
     next.innerText = ">";
 
     c2.append(prev);
-    c3.append(next);
+    c2.append(next);
 
     navRow.append(c1);
     navRow.append(c2);
     navRow.append(c3);
-    navRow.append(c4);
+    // navRow.append(c4);
 
     const currentPanel = document.querySelector(`#parent-panel-${panels[id]}`);
     if (currentPanel != null) {
@@ -455,7 +474,7 @@ var renderPanels = (panels) => {
   // console.log(currnetVisiblePanel);
   document.addEventListener('click', (event) => {
     // console.log(event.target.className);
-    if (event.target.className === "navbtn btn btn-primary btn-sm") {
+    if (event.target.dataset.identify === "navbtn") {
       // console.log(currnetVisiblePanel)
       // console.log(event.target.dataset.link);
 
