@@ -194,7 +194,7 @@ var createPanel = (panelID, config) => {
   let templateDiv = document.querySelector("#template-div");
 
   // console.log(templateDiv)
-  console.log(config["form-width"]);
+  // console.log(config["form-width"]);
 
   let panel = document.createElement("script");
   panel.setAttribute("type", "text/x-handlebars-template");
@@ -217,11 +217,15 @@ var createPanel = (panelID, config) => {
   let fieldsetElement = document.createElement("fieldset");
   fieldsetElement.setAttribute("id", `fieldset-panel-${panelID}`)
   tempdiv.setAttribute("class", "maincontent rounded p-5 m-5") //
+
+  let hr = document.createElement("hr");
+  
   let fieldsetLegend = document.createElement("legend");
+  fieldsetLegend.setAttribute("class","mb-2");
   fieldsetLegend.innerHTML = panelID;
   fieldsetElement.append(fieldsetLegend);
+  fieldsetElement.append(hr);
   tempdiv.append(fieldsetElement);
-
   panelContentContainer.append(tempdiv)
 
   internalPanelContainer.append(panelContentContainer);
@@ -260,7 +264,7 @@ var createComponent = (panelID, componentID, componentDetails, config) => {
     label.append(labelSpan);
   }
 
-  if (componentDetails["tagName"] === "input" && componentDetails["attributes"]["type"] === "radio") {
+  if (componentDetails["tagName"] === "input" && componentDetails["attributes"]["type"] === "radio" || componentDetails["attributes"]["type"] === "checkbox") {
     let options = componentDetails["attributes"]["options"];
     // console.log(options)
     let parentRadiodiv = document.createElement("div");
@@ -280,7 +284,7 @@ var createComponent = (panelID, componentID, componentDetails, config) => {
       let radioLabel = document.createElement("span");
       radioLabel.innerHTML = options[option];
       let radio = document.createElement("input");
-      radio.setAttribute("type", "radio");
+      radio.setAttribute("type", `${componentDetails["attributes"]["type"]}`);
       radio.setAttribute("name", componentDetails["name"]);
 
       let radiodiv = document.createElement("div");
@@ -428,8 +432,8 @@ var linkPanels = (panels) => {
       next.setAttribute("data-link", `panel-${panels[id + 1]}`);
     }
 
-    prev.innerText = "<";
-    next.innerText = ">";
+    prev.innerText = "Prev";
+    next.innerText = "Next";
 
     c2.append(prev);
     c2.append(next);
