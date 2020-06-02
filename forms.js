@@ -353,6 +353,28 @@ var linkPanels = (panels) => {
 
 }
 
+var renderPanels = (panels) => {
+
+  const compiledPanel = Handlebars.compile(document.querySelector(`#panel-${panels[0]}`).innerHTML);
+  // console.log(compiledPanel());
+  const appendForm = document.querySelector(`#${formTagID}`);
+  // console.log(appendForm);
+  const tempTag = document.createElement("div");
+  tempTag.innerHTML = compiledPanel();
+  appendForm.append(tempTag);
+  
+  let currnetVisiblePanel = `panel-${panels[0]}`;
+  console.log(currnetVisiblePanel);
+  document.addEventListener('click', (event) => {
+    console.log(event.target.className);
+    if (event.target.className === "navbtn btn btn-primary btn-sm") {
+      console.log(event.target.dataset.link);
+      document.querySelector(`#${currnetVisiblePanel}`).hidden = true
+    }
+  });
+
+}
+
 
 var createTag = (tagName, labelName, attributes, formTagID, config) => {
   const form = document.querySelector(`#${formTagID}`);
