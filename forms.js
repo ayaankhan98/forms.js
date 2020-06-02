@@ -201,7 +201,7 @@ var createPanel = (panelID) => {
   tempdiv.setAttribute("id", `parent-panel-${panelID}`)
   let fieldsetElement = document.createElement("fieldset");
   fieldsetElement.setAttribute("id", `fieldset-panel-${panelID}`)
-  tempdiv.setAttribute("class", "border border-dark rounded p-5 m-5") //
+  tempdiv.setAttribute("class", "maincontent border border-dark rounded p-5 m-5") //
   let fieldsetLegend = document.createElement("legend");
   fieldsetLegend.innerHTML = panelID;
   fieldsetElement.append(fieldsetLegend);
@@ -355,6 +355,8 @@ var linkPanels = (panels) => {
 
 var renderPanels = (panels) => {
 
+  createAnimation();
+  
   for (let id in panels) {
     const compiledPanel = Handlebars.compile(document.querySelector(`#panel-${panels[id]}`).innerHTML);
     // console.log(compiledPanel());
@@ -391,6 +393,28 @@ var renderPanels = (panels) => {
 
 }
 
+
+var createAnimation = () => {
+  let head = document.querySelector("head");
+  let styleTag = document.createElement("style");
+  styleTag.innerHTML = `@keyframes appear {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+.maincontent{
+  background-color: white;
+  position: relative;
+  animation-name: appear;
+  animation-duration: 1500ms;
+  animation-fill-mode: forwards;
+}`
+
+head.append(styleTag);
+}
 
 var createTag = (tagName, labelName, attributes, formTagID, config) => {
   const form = document.querySelector(`#${formTagID}`);
