@@ -201,6 +201,7 @@ var createPanel = (panelID) => {
 
   let tempdiv = document.createElement("div");
   tempdiv.setAttribute("id", `parent-panel-${panelID}`)
+
   let fieldsetElement = document.createElement("fieldset");
   fieldsetElement.setAttribute("id", `fieldset-panel-${panelID}`)
   tempdiv.setAttribute("class", "maincontent border border-dark rounded p-5 m-5") //
@@ -208,7 +209,6 @@ var createPanel = (panelID) => {
   fieldsetLegend.innerHTML = panelID;
   fieldsetElement.append(fieldsetLegend);
   tempdiv.append(fieldsetElement);
-
 
   panel.append(tempdiv);
   templateDiv.append(panel);
@@ -229,33 +229,38 @@ var createComponent = (panelID, componentID, componentDetails) => {
 
   var panel = document.querySelector(`#fieldset-panel-${panelID}`);
 
+
   if (componentDetails["label"] != undefined) {
     var label = document.createElement("label");
     label.setAttribute("for", `${componentDetails["label"]}`);
 
     var labelSpan = document.createElement("span");
+    if (componentDetails["tooltip"] != undefined) {
+      labelSpan.setAttribute("data-toggle", "tooltip");
+      labelSpan.setAttribute("title", `${componentDetails["tooltip"]}`)
+    }
     labelSpan.innerHTML = componentDetails["label"];
+
     label.append(labelSpan);
   }
 
   if (componentDetails["tagName"] === "input" && componentDetails["attributes"]["type"] === "radio") {
-    console.log("Hah");
     let options = componentDetails["attributes"]["options"];
-    console.log(options)
+    // console.log(options)
     let parentRadiodiv = document.createElement("div");
-    parentRadiodiv.setAttribute("class","row");
+    parentRadiodiv.setAttribute("class", "row");
 
     let col1 = document.createElement("div");
     let col2 = document.createElement("div");
 
-    col1.setAttribute("class","col-md-2");
-    col2.setAttribute("class","col-md-5");
-    
+    col1.setAttribute("class", "col-md-2");
+    col2.setAttribute("class", "col-md-5");
+
     parentRadiodiv.append(col1);
     parentRadiodiv.append(col2);
 
     for (let option in options) {
-      console.log(option)
+      // console.log(option)
       let radioLabel = document.createElement("span");
       radioLabel.innerHTML = options[option];
       let radio = document.createElement("input");
@@ -263,13 +268,13 @@ var createComponent = (panelID, componentID, componentDetails) => {
       radio.setAttribute("name", componentDetails["name"]);
 
       let radiodiv = document.createElement("div");
-      radiodiv.setAttribute("class","row");
+      radiodiv.setAttribute("class", "row");
 
       let internalCol1 = document.createElement("div");
       let internalCol2 = document.createElement("div");
-  
-      internalCol1.setAttribute("class","col-md-1");
-      internalCol2.setAttribute("class","col-md-6");
+
+      internalCol1.setAttribute("class", "col-md-1");
+      internalCol2.setAttribute("class", "col-md-6");
 
       internalCol1.append(radio);
       internalCol2.append(radioLabel);
@@ -345,7 +350,7 @@ var createComponent = (panelID, componentID, componentDetails) => {
 
   } else if (componentDetails["labelPosition"] === "top") {
     // place the label and corrosponding component in different div
-    console.log("true");
+    // console.log("true");
     let divCombie = document.createElement("div");
     let row1 = document.createElement("div");
     let row2 = document.createElement("div");
@@ -425,7 +430,6 @@ var linkPanels = (panels) => {
 }
 
 var renderPanels = (panels) => {
-
   createAnimation();
 
   for (let id in panels) {
