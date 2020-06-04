@@ -286,9 +286,9 @@ document.addEventListener('DOMContentLoaded', () => {
 ```
 based on this sample json object `details` the dynamically generated form will look like
 
-[<img src="./preview/p1.png" width="450"/>](p1.png)
-[<img src="./preview/p2.png" width="450"/>](p2.png)
-[<img src="./preview/p3.png" width="450"/>](p3.png)
+[<img src="./preview/p1.png" width="650"/>](p1.png)
+[<img src="./preview/p2.png" width="650"/>](p2.png)
+[<img src="./preview/p3.png" width="650"/>](p3.png)
 
 the `JSON` object `details` consitst of the form details based on which the forms will be generated.
 
