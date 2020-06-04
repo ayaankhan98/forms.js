@@ -99,10 +99,6 @@ var preSetup = () => {
 }
 
 var readObject = (details, formTagID) => {
-
-
-  ////////////////////////////////////////////////////////
-
   try {
     if (details["configuration"] === undefined) {
       throw `Error : No configuration found
@@ -123,16 +119,12 @@ var readObject = (details, formTagID) => {
   }
   let config = details["configuration"];
   delete (details["configuration"]);
-
-
-  ////////////////////////////////////////////////////////
-
+  // taking panels out to build linkPanel array
   var linkPanel = [];
   for (p in details) {
     linkPanel.push(p);
   }
   var bodyElement = document.querySelector("body");
-
   var templateDiv = document.createElement("div");
   templateDiv.setAttribute("id", "template-div");
 
@@ -144,58 +136,19 @@ var readObject = (details, formTagID) => {
     panel = details[panel];
 
     createPanel(panelID, config);
-    // console.log(panel);
 
     for (var component in panel) {
-
       var componentID = component;
       component = panel[component];
-      // console.log(component);
       createComponent(panelID, componentID, component, config);
-
     }
-    // when a panel is created then compile the panel and plug 
-    // it into the DOM based on the panel number and 
-    // corrosponding sliding page number
-    // such as if the current sliding page number is 4 then the panel 
-    // number 4 will be plugged into the DOM and user swithces back and
-    // forth the panels then the corrosponding panel should also change
-
-    // const compiledPanel = Handlebars.compile(document.querySelector(`#panel-${panelID}`).innerHTML);
-    // // console.log(compiledPanel());
-    // const appendForm = document.querySelector(`#${formTagID}`);
-    // // console.log(appendForm);
-    // const tempTag = document.createElement("div");
-    // tempTag.innerHTML = compiledPanel();
-    // appendForm.append(tempTag);
-
-
-    // if (typeof (details[key]) === "object") {
-    //   var tagID = parseInt(key);
-    //   if (tagID != NaN) {
-    //     var element = details[key]["tagName"];
-    //     var attributes = details[key]["attributes"];
-    //     var label = details[key]["label"];
-    //     // console.log(element)
-    //     // console.log(label)
-    //     // console.log(attributes)
-    //     createTag(element, label, attributes, formTagID, config);
-    //   }
-    // }
-    // if (typeof (details[key]) === "object" && typeof (key) != "number") {
-    // }
   }
   linkPanels(linkPanel);
   renderPanels(linkPanel);
 }
 
 var createPanel = (panelID, config) => {
-
   let templateDiv = document.querySelector("#template-div");
-
-  // console.log(templateDiv)
-  // console.log(config["form-width"]);
-
   let panel = document.createElement("script");
   panel.setAttribute("type", "text/x-handlebars-template");
   panel.setAttribute("id", `panel-${panelID}`);
@@ -232,28 +185,19 @@ var createPanel = (panelID, config) => {
 
   panel.append(internalPanelContainer);
   templateDiv.append(panel);
-
-  // console.log(templateDiv)
 }
 
 
 var createComponent = (panelID, componentID, componentDetails, config) => {
-
-  // console.log(componentDetails);
-
   // setting defaults at the top for consistency 
   if (componentDetails["labelPosition"] === undefined) {
     // default label position is left
     componentDetails["labelPosition"] = "left";
   }
-
   var panel = document.querySelector(`#fieldset-panel-${panelID}`);
-
-
   if (componentDetails["label"] != undefined) {
     var label = document.createElement("label");
     label.setAttribute("for", `${componentDetails["label"]}`);
-
     var labelSpan = document.createElement("span");
     if (componentDetails["tooltip"] != undefined) {
       labelSpan.setAttribute("data-toggle", "tooltip");
@@ -263,10 +207,8 @@ var createComponent = (panelID, componentID, componentDetails, config) => {
 
     label.append(labelSpan);
   }
-
   if (componentDetails["tagName"] === "input" && componentDetails["attributes"]["type"] === "radio" || componentDetails["attributes"]["type"] === "checkbox") {
     let options = componentDetails["attributes"]["options"];
-    // console.log(options)
     let parentRadiodiv = document.createElement("div");
     parentRadiodiv.setAttribute("class", "row");
 
@@ -280,7 +222,6 @@ var createComponent = (panelID, componentID, componentDetails, config) => {
     parentRadiodiv.append(col2);
 
     for (let option in options) {
-      // console.log(option)
       let radioLabel = document.createElement("span");
       radioLabel.innerHTML = options[option];
       let radio = document.createElement("input");
@@ -317,20 +258,15 @@ var createComponent = (panelID, componentID, componentDetails, config) => {
 
   var element = document.createElement(`${componentDetails["tagName"]}`);
   for (let attribute in componentDetails["attributes"]) {
-    // console.log(attribute);
-    // console.log(componentDetails["attributes"][attribute])
-
     // Handling select boxes
     if (componentDetails["tagName"] === "select") {
       if (attribute === "options") {
         let options = componentDetails["attributes"]["options"];
-        // console.log(options);
         for (let option in options) {
           let optionTag = document.createElement("option");
           optionTag.setAttribute("value", option);
           optionTag.innerHTML = options[option];
           element.append(optionTag);
-          // console.log(element);
         }
       }
     }
@@ -363,14 +299,13 @@ var createComponent = (panelID, componentID, componentDetails, config) => {
 
     // now this row is a complete component in itself
     // now put this newly created component inside the panel
-
+    
     panel.append(row);
-
-    // console.log(panel);
-
   } else if (componentDetails["labelPosition"] === "top") {
+
     // place the label and corrosponding component in different div
     // console.log("true");
+
     let divCombie = document.createElement("div");
     divCombie.setAttribute("class", `col-md-${config["form-width"]}`);
     let row1 = document.createElement("div");
@@ -386,21 +321,12 @@ var createComponent = (panelID, componentID, componentDetails, config) => {
     divCombie.append(row2);
     panel.append(divCombie);
   }
-
-  // console.log(panel)
-  // console.log(componentDetails);
-
 }
 
 var linkPanels = (panels) => {
-
-  // console.log(panels.length)
-
   for (var id in panels) {
 
     id = parseInt(id);
-    // console.log(typeof (id));
-    // console.log(`panel-${panels[id]}`)
     const navRow = document.createElement("div");
     navRow.setAttribute("class", "row mx-auto");
 
@@ -420,9 +346,6 @@ var linkPanels = (panels) => {
     next.setAttribute("class", "navbtn btn btn-primary btn-sm m-2");
     prev.setAttribute("data-identify", "navbtn");
     next.setAttribute("data-identify", "navbtn")
-
-    // prev.style.float = "left";
-    // next.style.float = "right";
 
     if (id === 0) {
       prev.setAttribute("data-link", `panel-${panels[panels.length - 1]}`);
@@ -444,11 +367,9 @@ var linkPanels = (panels) => {
     navRow.append(c1);
     navRow.append(c2);
     navRow.append(c3);
-    // navRow.append(c4);
 
     const currentPanel = document.querySelector(`#parent-panel-${panels[id]}`);
     if (currentPanel != null) {
-      // console.log(currentPanel);
       currentPanel.append(navRow);
     }
   }
@@ -460,31 +381,22 @@ var renderPanels = (panels) => {
 
   for (let id in panels) {
     const compiledPanel = Handlebars.compile(document.querySelector(`#panel-${panels[id]}`).innerHTML);
-    // console.log(compiledPanel());
     const appendForm = document.querySelector(`#${formTagID}`);
-    // console.log(appendForm);
     const tempTag = document.createElement("div");
     tempTag.innerHTML = compiledPanel();
     appendForm.append(tempTag);
   }
 
   for (let id in panels) {
-    // console.log(panels[id])
     let currnetVisiblePanel = `parent-panel-${panels[id]}`;
-    // console.log(currnetVisiblePanel)
     document.querySelector(`#${currnetVisiblePanel}`).hidden = true
   }
 
   let currnetVisiblePanel = `parent-panel-${panels[0]}`;
   document.querySelector(`#${currnetVisiblePanel}`).hidden = false
 
-  // console.log(currnetVisiblePanel);
   document.addEventListener('click', (event) => {
-    // console.log(event.target.className);
     if (event.target.dataset.identify === "navbtn") {
-      // console.log(currnetVisiblePanel)
-      // console.log(event.target.dataset.link);
-
       document.querySelector(`#${currnetVisiblePanel}`).hidden = true;
       document.querySelector(`#parent-${event.target.dataset.link}`).hidden = false;
       currnetVisiblePanel = `parent-${event.target.dataset.link}`;
@@ -515,78 +427,4 @@ var createAnimation = () => {
 }`
 
   head.append(styleTag);
-}
-
-var createTag = (tagName, labelName, attributes, formTagID, config) => {
-  const form = document.querySelector(`#${formTagID}`);
-
-  let label = undefined;
-  let row = document.createElement("div");
-  row.setAttribute('class', "row");
-
-  if (config["d-left"] != undefined) {
-    let dLeft = document.createElement("div");
-    dLeft.setAttribute("class", `col-md-${config["d-left"]}`);
-    row.append(dLeft);
-  }
-
-  let div = document.createElement('div');
-  div.setAttribute('class', `col-md-${config["form-width"]}`);
-  if (attributes['type'] === 'radio') {
-    div.setAttribute('class', `col-md-${config["form-width"]} form-check ml-3`);
-  }
-  if (labelName != undefined) {
-    label = document.createElement('label');
-    label.innerHTML = labelName;
-  }
-
-  let element = document.createElement(tagName);
-  // if (tagName === 'input') { 
-  //   element.setAttribute('class', defaultClasses["input"]) 
-  // } else if (tagName === 'select') {
-  //   element.setAttribute('class', defaultClasses["select"]) 
-
-  // } else if (tagName === 'radio') {
-  //   element.setAttribute('class', defaultClasses["radio"]) 
-
-  // } else if (tagName === 'checkbox') {
-  //   element.setAttribute('class', defaultClasses["checkbox"]) 
-  // }
-
-  for (let attribute in attributes) {
-    if (attribute === 'innerHTML') {
-      element.innerHTML = attributes[attribute];
-    } else if (attribute === 'required') {
-      if (attributes[attribute] === "true" || attributes[attribute] === true) {
-        element.required = true;
-      }
-    } else {
-      element.setAttribute(attribute, attributes[attribute]);
-    }
-  }
-  if (tagName === "select") {
-    let options = attributes["options"];
-    for (let option in options) {
-      let optionTag = document.createElement('option');
-      optionTag.setAttribute('value', option);
-      optionTag.innerHTML = options[option];
-      element.append(optionTag);
-    }
-    // options.forEach(option => {
-    //   let optionTag = document.createElement('option')
-    //   optionTag.innerHTML = option
-    //   element.append(optionTag)
-    // })
-  }
-  if (attributes["type"] === 'checkbox' || attributes["type"] == "radio") {
-    div.append(element);
-    div.append(label);
-  } else {
-    if (label != undefined) {
-      div.append(label);
-    }
-    div.append(element);
-  }
-  row.append(div);
-  form.append(row);
 }
