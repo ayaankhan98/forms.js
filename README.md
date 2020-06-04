@@ -36,25 +36,32 @@ let's look over the sample `main.js`
 ```javascript
 var details = {
   "configuration": {
-    'form-width': '5',
-    'd-left': '2',
+    'form-width': '8',
+    'd-left': '3',
   },
-  "Personal-Info": {
+  "Personal-Info-Left": {
     1: {
-      'tagName': 'input',
+      'tagName': 'input', 
       'label': 'First Name',
       'labelPosition': 'left',
+      'tooltip' : "Type your full name",
       'attributes': {
         'type': 'text',
         'placeholder': 'First Name',
         'class': 'form-group form-control',
-        'id': 'name'
+        'id': 'name' 
       },
     },
     2: {
       'tagName': 'input',
       'label': 'Password',
       'labelPosition': 'left',
+      'tooltip' : `password must contain
+      more than 8 characters
+      including symbols like @,#,* etc
+      including numbers 1,2,3,4 etc
+      and alphabets a,b,c,d,A,B,D etc.
+      `,
       'attributes':
       {
         'type': 'password',
@@ -66,6 +73,7 @@ var details = {
       'tagName': 'input',
       'label': 'Date of Birth',
       'labelPosition': 'left',
+      'tooltip' : 'type date of birth in DD/MM/YY',
       'attributes':
       {
         'type': 'date',
@@ -95,53 +103,28 @@ var details = {
         'rows': 6,
       },
     },
-    6 : {
+    6: {
       'tagName': 'input',
-      'label': 'Email',
-      'labelPosition': 'left',
+      'label': 'Language of Choice',
+      'labelPosition': "left",
+      'name': 'lang',
       'attributes':
       {
-        'type': 'email',
-        'placeholder': 'test@test.com',
-        'class': 'form-group form-control',
+        'type': 'radio',
+        'class': 'form-check-input',
+        'options': {
+          "c" : "C",
+          'cpp': 'C++',
+          'rst': 'Rust',
+          'java' : "Java",
+          "js" : "JavaScript",
+          "py" : "Python",
+          "ju" : "Julia",
+          "ex" : "Elixr"
+        }
       }
     },
-    7 : {
-      'tagName': 'input',
-      'label': 'Email',
-      'labelPosition': 'left',
-      'attributes':
-      {
-        'type': 'email',
-        'placeholder': 'test@test.com',
-        'class': 'form-group form-control',
-      }
-    },
-    8 : {
-      'tagName': 'input',
-      'label': 'Email',
-      'labelPosition': 'left',
-      'attributes':
-      {
-        'type': 'email',
-        'placeholder': 'test@test.com',
-        'class': 'form-group form-control',
-      }
-    },
-    9: {
-      'tagName': 'input',
-      'label': 'Email',
-      'labelPosition': 'left',
-      'attributes':
-      {
-        'type': 'email',
-        'placeholder': 'test@test.com',
-        'class': 'form-group form-control',
-      }
-    },
-  },
-  "Address-Info": {
-    1: {
+    7: {
       'tagName': 'input',
       'label': 'Checkbox',
       'labelPosition': "left",
@@ -151,41 +134,101 @@ var details = {
         'class': 'form-check-inline',
       }
     },
+  },
+  "Personal-Info-Top": {
+    1: {
+      'tagName': 'input',
+      'label': 'First Name',
+      'labelPosition': 'top',
+      'attributes': {
+        'type': 'text',
+        'placeholder': 'First Name',
+        'class': 'form-group form-control',
+        'id': 'name'
+      },
+    },
     2: {
       'tagName': 'input',
-      'label': 'Accept the Terms and Conditions',
-      'labelPosition': "left",
+      'label': 'Password',
+      'labelPosition': 'top',
       'attributes':
       {
-        'type': 'checkbox',
-        'class': 'form-check-inline',
-      }
+        'type': 'password',
+        'placeholder': 'Password',
+        'class': 'form-group form-control',
+      },
     },
     3: {
       'tagName': 'input',
-      'label': 'Radio 1',
-      'labelPosition': "left",
+      'label': 'Date of Birth',
+      'labelPosition': 'top',
       'attributes':
       {
-        'type': 'radio',
-        'class': 'form-check-input',
-        'value': 'radio1',
-        'name': 'set1'
+        'type': 'date',
+        'placeholder': 'Date Of Birth',
+        'class': 'form-group form-control',
       }
     },
     4: {
       'tagName': 'input',
-      'label': 'Radio 2',
-      'labelPosition': "left",
+      'label': 'Email',
+      'labelPosition': 'top',
+      'attributes':
+      {
+        'type': 'email',
+        'placeholder': 'test@test.com',
+        'class': 'form-group form-control',
+      }
+    },
+    5: {
+      'tagName': 'textarea',
+      'label': 'Address',
+      'labelPosition': 'top',
+      'attributes':
+      {
+        'placeholder': 'Address',
+        'class': 'form-group form-control',
+        'rows': 6,
+      },
+    },
+    6: {
+      'tagName': 'input',
+      'label': 'Gender',
+      'labelPosition': "top",
+      'name': 'gender',
       'attributes':
       {
         'type': 'radio',
         'class': 'form-check-input',
-        'value': 'radio2',
-        'name': 'set1'
+        'options': {
+          'M': 'Male',
+          'F': 'Female'
+        }
       }
     },
-    5: {
+  },
+  "Address-Info": {
+    1: {
+      'tagName': 'input',
+      'label': 'Language',
+      'labelPosition': "top",
+      'name': 'gender',
+      'attributes':
+      {
+        'type': 'checkbox',
+        'class': 'form-check-input',
+        'options': {
+          'cpp': 'C++',
+          'py': 'Python',
+          'java' : "Java",
+          "js" : "JavaScript",
+          'rst' : "rust",
+          "julis" : "Julia",
+          "cs" : "C#"
+        }
+      }
+    },
+    2: {
       'tagName': 'select',
       "label": "City",
       "labelPosition": "left",
@@ -202,9 +245,18 @@ var details = {
         }
       }
     },
-    6: {
+    3: {
+      'tagName': 'input',
+      "label": "upload Photo",
+      "labelPosition": "left",
+      'attributes':
+      {
+        'type': 'file',
+        'class': 'mb-4',
+      }
+    },
+    4: {
       'tagName': 'button',
-      'label': "button",
       "labelPosition": "left",
       'attributes':
       {
@@ -212,24 +264,16 @@ var details = {
         'innerHTML': 'Submit',
       }
     },
-    7: {
-      'tagName': 'input',
-      "label": "upload Photo",
-      'attributes':
-      {
-        'type': 'file',
-        'class': 'mt-2',
-      }
-    }
   },
   "Home-Info": {
     1: {
       'tagName': 'input',
       "label": "upload Photo",
+      "labelPosition": "top",
       'attributes':
       {
         'type': 'file',
-        'class': 'mt-2',
+        'class': "",
       }
     }
   },
@@ -240,6 +284,12 @@ document.addEventListener('DOMContentLoaded', () => {
   readObject(details, formTagID)
 })
 ```
+based on this sample json object `details` the dynamically generated form will look like
+
+[<img src="./preview/p1.png" width="450"/>](p1.png)
+[<img src="./preview/p2.png" width="450"/>](p2.png)
+[<img src="./preview/p3.png" width="450"/>](p3.png)
+
 the `JSON` object `details` consitst of the form details based on which the forms will be generated.
 
 The `"configuration"` defines the configuration of form such as `d-left` key defines the position of form from the left side of screen and `form-width` defines the width of form

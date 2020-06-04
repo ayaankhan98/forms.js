@@ -5,7 +5,7 @@ var details = {
   },
   "Personal-Info-Left": {
     1: {
-      'tagName': 'input',  // field type 
+      'tagName': 'input', 
       'label': 'First Name',
       'labelPosition': 'left',
       'tooltip' : "Type your full name",
@@ -69,50 +69,6 @@ var details = {
     },
     6: {
       'tagName': 'input',
-      'label': 'Email',
-      'labelPosition': 'left',
-      'attributes':
-      {
-        'type': 'email',
-        'placeholder': 'test@test.com',
-        'class': 'form-group form-control',
-      }
-    },
-    7: {
-      'tagName': 'input',
-      'label': 'Email',
-      'labelPosition': 'left',
-      'attributes':
-      {
-        'type': 'email',
-        'placeholder': 'test@test.com',
-        'class': 'form-group form-control',
-      }
-    },
-    8: {
-      'tagName': 'input',
-      'label': 'Email',
-      'labelPosition': 'left',
-      'attributes':
-      {
-        'type': 'email',
-        'placeholder': 'test@test.com',
-        'class': 'form-group form-control',
-      }
-    },
-    9: {
-      'tagName': 'input',
-      'label': 'Email',
-      'labelPosition': 'left',
-      'attributes':
-      {
-        'type': 'email',
-        'placeholder': 'test@test.com',
-        'class': 'form-group form-control',
-      }
-    },
-    10: {
-      'tagName': 'input',
       'label': 'Language of Choice',
       'labelPosition': "left",
       'name': 'lang',
@@ -132,7 +88,7 @@ var details = {
         }
       }
     },
-    11: {
+    7: {
       'tagName': 'input',
       'label': 'Checkbox',
       'labelPosition': "left",
@@ -201,50 +157,6 @@ var details = {
     },
     6: {
       'tagName': 'input',
-      'label': 'Email',
-      'labelPosition': 'top',
-      'attributes':
-      {
-        'type': 'email',
-        'placeholder': 'test@test.com',
-        'class': 'form-group form-control',
-      }
-    },
-    7: {
-      'tagName': 'input',
-      'label': 'Email',
-      'labelPosition': 'top',
-      'attributes':
-      {
-        'type': 'email',
-        'placeholder': 'test@test.com',
-        'class': 'form-group form-control',
-      }
-    },
-    8: {
-      'tagName': 'input',
-      'label': 'Email',
-      'labelPosition': 'top',
-      'attributes':
-      {
-        'type': 'email',
-        'placeholder': 'test@test.com',
-        'class': 'form-group form-control',
-      }
-    },
-    9: {
-      'tagName': 'input',
-      'label': 'Email',
-      'labelPosition': 'top',
-      'attributes':
-      {
-        'type': 'email',
-        'placeholder': 'test@test.com',
-        'class': 'form-group form-control',
-      }
-    },
-    10: {
-      'tagName': 'input',
       'label': 'Gender',
       'labelPosition': "top",
       'name': 'gender',
@@ -309,7 +221,6 @@ var details = {
     },
     4: {
       'tagName': 'button',
-      // 'label': "button",
       "labelPosition": "left",
       'attributes':
       {
