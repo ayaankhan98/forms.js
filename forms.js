@@ -421,6 +421,9 @@ var linkPanels = (panels) => {
     prev.setAttribute("data-identify", "navbtn");
     next.setAttribute("data-identify", "navbtn")
 
+    // prev.style.float = "left";
+    // next.style.float = "right";
+
     if (id === 0) {
       prev.setAttribute("data-link", `panel-${panels[panels.length - 1]}`);
     } else {
