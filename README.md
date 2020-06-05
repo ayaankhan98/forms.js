@@ -1,5 +1,7 @@
 # forms.js
-A simple light weighted javascript library built on top of bootstrap to dynamically generate responsive forms using json objects
+A simple light weighted javascript library built on top of bootstrap to dynamically generate responsive forms using json objects.
+
+The purpose of writing this code is to handle the situations in which different types of large forms of variable input fields are returned by the server in the form a JSON object, in such cases this will become helpful to dynamically generate forms and take user input for further processing.
 
 # Status
 This is a very basic version of what i am trying to do, currently working on this to make it more robust and useful.
@@ -291,7 +293,7 @@ based on this sample json object `details` the dynamically generated form will l
 [<img src="./preview/p2.png" width="650"/>](p2.png)
 
 
-the `JSON` object `details` consitst of the form details based on which the forms will be generated.
+the `JSON` object `details` consist of the form details based on which the forms will be generated.
 
 The `"configuration"` defines the configuration of form such as `d-left` key defines the position of form from the left side of screen and `form-width` defines the width of form
 
