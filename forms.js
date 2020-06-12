@@ -172,9 +172,9 @@ var createPanel = (panelID, config) => {
   tempdiv.setAttribute("class", "maincontent rounded p-5 m-5") //
 
   let hr = document.createElement("hr");
-  
+
   let fieldsetLegend = document.createElement("legend");
-  fieldsetLegend.setAttribute("class","mb-2");
+  fieldsetLegend.setAttribute("class", "mb-2");
   fieldsetLegend.innerHTML = panelID;
   fieldsetElement.append(fieldsetLegend);
   fieldsetElement.append(hr);
@@ -299,7 +299,7 @@ var createComponent = (panelID, componentID, componentDetails, config) => {
 
     // now this row is a complete component in itself
     // now put this newly created component inside the panel
-    
+
     panel.append(row);
   } else if (componentDetails["labelPosition"] === "top") {
 

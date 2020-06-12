@@ -1,8 +1,0 @@
-what does a tag contains of ?
-
-A HTML tag consist of 
-  1- tag name
-  2- attributes
-  3- innerHTML / innerTEXT
-
-
